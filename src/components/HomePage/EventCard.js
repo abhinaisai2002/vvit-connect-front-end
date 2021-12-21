@@ -1,17 +1,18 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
-import campus1 from './campus1.png'
 
-export default function EventCard() {
+export default function EventCard(props) {
+    const {
+      title,description,image
+    } = props;
     return (
-      <Card style={{ width: '18rem' }}>
-        <Card.Img variant='top' src={campus1} />
+      <Card>
+        <Card.Img variant='top' src={image} />
         <Card.Body>
-          <Card.Title>Card Title</Card.Title>
-          <Card.Text>
-            Some quick example text to build on the card title and make up the
-            bulk of the card's content.
-          </Card.Text>
+          <Card.Title>
+            <h2>{title}</h2>
+          </Card.Title>
+          <Card.Text><h4>{description}</h4></Card.Text>
         </Card.Body>
       </Card>
     );

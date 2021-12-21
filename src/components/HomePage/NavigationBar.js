@@ -2,15 +2,11 @@ import React from 'react'
 import { Link } from 'react-router-dom';
 import {Navbar,Nav,Container,Button} from 'react-bootstrap'
 
-const styles = {
-  textDecoration:"none",
-  color:"white"
-}
 
 const NavigationBar = ()=>{
     return (
       <>
-        <Navbar collapseOnSelect expand='lg' bg='light' variant='light' className='p-2'>
+        <Navbar collapseOnSelect expand='lg' bg='light' variant='light' className='p-2' className="sticky-top">
           <Container>
             <Navbar.Brand href='#home'>
               <Link to='/'>
