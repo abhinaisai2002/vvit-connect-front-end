@@ -12,7 +12,7 @@ export default function EventCard(props) {
           <Card.Title>
             <h2>{title}</h2>
           </Card.Title>
-          <Card.Text><h4>{description}</h4></Card.Text>
+          <h4>{description}</h4>
         </Card.Body>
       </Card>
     );

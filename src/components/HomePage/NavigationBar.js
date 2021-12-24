@@ -49,7 +49,7 @@ const NavigationBar = ()=>{
                     </Link>
                   </Nav.Link>
                   <Nav.Link>
-                    <Button variant='primary' onClick={logoutHandler}>Logout</Button>
+                    <button className='btn btn-primary' onClick={()=>logoutHandler()}>Logout</button>
                   </Nav.Link>
                 </Nav>
               )}

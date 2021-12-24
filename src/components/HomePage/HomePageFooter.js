@@ -27,7 +27,7 @@ export default function HomePageFooter() {
                 </section>
             </div>
 
-            <div className="text-center p-3" style={{backgroundColor: "rgba(0, 0, 0, 0.2);"}}>
+            <div className="text-center p-3" style={{backgroundColor: "rgba(0, 0, 0, 0.2)"}}>
                 © 2021 Copyright:
                 <a className="text-white" href="https://vvitguntur.com/">vvitguntur.com</a>
             </div>

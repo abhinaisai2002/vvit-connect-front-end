@@ -65,7 +65,11 @@ const Register = ()=>{
           section:sectionRef.current.value
         }
         authCtx.signUp(userData);
-
+        
+        // fullNameReset();
+        // emailReset();
+        // passwordReset();
+        // password2Reset();
     }
 
     return (

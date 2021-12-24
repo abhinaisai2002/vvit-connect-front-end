@@ -11,14 +11,16 @@ export const AuthContext = createContext({
 })
 
 const AuthContextProvider = ({children})=>{
-
+    const [isVerified,setVerified] = useState(false);
+    const [isManager,setManager] = useState(false);
     const [currentUser,setCurrentUser] = useState();
     const [isAuthenticated,setIsAuthenticated] = useState();
     const [hasError,setHasError] = useState(false);
     const [message,setMessage] = useState();
 
-    const login = (email,password)=>{
-        fetch('http://localhost:5000/api/users/login',{
+    const login = (email,password,isManager)=>{
+        setManager(isManager);
+        fetch(`http://localhost:5000/api/${isManager?'managers':'users'}/login`,{
             method:"POST",
             headers:{
                 'Content-Type':'application/json'
@@ -41,9 +43,10 @@ const AuthContextProvider = ({children})=>{
             else{
                 setIsAuthenticated(true);
                 setCurrentUser(res);
+                setVerified(res.verified);
                 console.log(res);
                 localStorage.setItem('token',res.token);
-                localStorage.setItem('userId',res.userId);
+                localStorage.setItem('userData',JSON.stringify(res));
             }
         })
     }
@@ -53,26 +56,53 @@ const AuthContextProvider = ({children})=>{
         setHasError(null);
         setIsAuthenticated(false);
         setMessage(false);
-        localStorage.removeItem('token')
-        localStorage.removeItem('userId')
+        setVerified(false);
+        localStorage.removeItem('token');
+        localStorage.removeItem('userData');
     }
 
     const signUp = (data)=>{
-        fetch('http://localhost:5000/api/users/signup',{
-            method:"POST",
-            headers:{
-                'Content-Type':'application/json'
-            },
-            body:{
-                fullname:data.fullname,
-                email:data.email,
-                password:data.password,
-                year:data.year,
-                branch:data.branch,
-                password:data.password
-            }
+        fetch('http://localhost:5000/api/users/signup', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            fullname: data.fullName,
+            email: data.email,
+            password: data.password,
+            year: data.year,
+            branch: data.branch,
+            section: data.section,
+          }),
         })
+        .then((res) => {
+            if (!res.ok) {
+                setHasError(true);
+            }
+            return res.json();
+        })
+        .then((res) => {
+            console.log(res);
+            if (res.message) {
+                setMessage(res.message);
+            } else {
+                setIsAuthenticated(true);
+                setCurrentUser(res);
+                setVerified(false);
+                console.log(res);
+                localStorage.setItem('token', res.token);
+                localStorage.setItem('userData', JSON.stringify(res));
+            }
+        });
     }
+
+    const handleAuthentication = (data)=>{
+        setIsAuthenticated(true);
+        setHasError(null);
+        setMessage(null);
+    }
+
 
     const value={
         isAuthenticated,
@@ -81,7 +111,9 @@ const AuthContextProvider = ({children})=>{
         user:currentUser,
         signUp,
         message,
-        hasError
+        hasError,
+        handleAuthentication,
+        isManager
     }
 
 

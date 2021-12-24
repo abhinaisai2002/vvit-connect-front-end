@@ -42,7 +42,7 @@ const Events = ()=>{
         <h1 className='mb-4'>Events</h1>
           <Row xs={1} md={3} className='g-5'>
             {Array.from({ length: eventsCardsDetails.length }).map((_, idx) => (
-              <Col >
+              <Col key={idx}>
                 <EventCard 
                 title={eventsCardsDetails[idx].title}
                 description={eventsCardsDetails[idx].description}

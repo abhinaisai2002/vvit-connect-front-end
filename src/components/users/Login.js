@@ -2,8 +2,9 @@ import React,{useContext} from 'react';
 import { AuthContext } from '../../contexts/auth-context';
 import useInput from '../../utils/custom-hooks/useInput';
 
-const Login = ()=>{
+const Login = ({isManager})=>{
 
+  
     const authCtx = useContext(AuthContext);
     // ----------------------
     const {
@@ -13,7 +14,7 @@ const Login = ()=>{
       hasError: emailError,
       reset: emailReset,
       valueIsValid: emailIsValid,
-    } = useInput(validateEmail);
+    } = useInput(isManager ? valdiateManagerEmail:validateUserEmail);
 
     // ----------------------
     const {
@@ -32,7 +33,9 @@ const Login = ()=>{
       if (!formValidity) {
         return;
       }
-      authCtx.login(email,password);
+      authCtx.login(email,password,isManager);
+      emailReset();
+      passwordReset();
     };
 
     return (
@@ -44,9 +47,11 @@ const Login = ()=>{
             <h1>Login Your Account</h1>
           </div>
           <div className='container p-3'>
-            {authCtx.hasError && <div class='alert alert-danger' role='alert'>
-              {authCtx.message}
-            </div>}
+            {authCtx.hasError &&  (
+              <div className='alert alert-danger  text-center' role='alert'>
+                {authCtx.message}
+              </div>
+            )}
             <div className='row'>
               <div className='col'>
                 <div className='mb-3'>
@@ -58,8 +63,8 @@ const Login = ()=>{
                     className={`form-control ${
                       emailError ? 'border-danger' : ''
                     }`}
-                    id='email'
-                    placeholder='rollno@vvit.net'
+                    id={`email ${isManager}`}
+                    placeholder={`${isManager?'name':'rollno'}@vvit.net`}
                     value={email}
                     onChange={emailChangeHandler}
                     onBlur={emailBlurHandler}
@@ -84,7 +89,7 @@ const Login = ()=>{
                     className={`form-control ${
                       passwordError ? 'border-danger' : ''
                     }`}
-                    id='password1'
+                    id={`password1 ${isManager}`}
                     placeholder='Enter your password'
                     value={password}
                     onChange={passwordChangeHandler}
@@ -102,7 +107,7 @@ const Login = ()=>{
             <div className='row mt-4 '>
               <div className='col-12 d-flex justify-content-end'>
                 <button type='submit' className='btn btn-primary'>
-                  Sign Up
+                  Sign In
                 </button>
               </div>
             </div>
@@ -112,12 +117,20 @@ const Login = ()=>{
     );
 }
 
-const validateEmail = (email) => {
+const validateUserEmail = (email) => {
   let emailRe = new RegExp(
     '[0-9][0-9][bB][qQ]1[aA][0-1][0-5][0-9A-Za-z][0-9]@vvit.net'
   );
 
   return emailRe.test(email);
 };
+
+const valdiateManagerEmail = (email) => {
+  let emailRe = new RegExp(
+    '[a-zA-Z0-9]{3,}@vvit.net'
+  );
+
+  return emailRe.test(email)
+}
 
 export default Login;

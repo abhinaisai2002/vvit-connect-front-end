@@ -4,7 +4,6 @@ import 'react-responsive-carousel/lib/styles/carousel.min.css';
 import campus1 from './campus1.png'
 import campus2 from './campus2.png'
 import campus3 from './campus3.png'
-import './CarouselImages.css'
 
 const CarouselImages = ()=>{
     return (
